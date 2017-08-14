@@ -1,0 +1,76 @@
+{% extends "home.html" %}
+
+{% block title %}
+  <title>Report section</title>
+{% endblock %}
+
+{% block content %}
+<h1>
+  Report forum
+</h1>
+<div class="box box-default">
+  <div class="box-header with-border">
+    In this section you can create a ticket with a problem found on this site.
+  </div>
+</div>
+
+<a href="/posting">
+  <div class="glyphicon glyphicon-plus-sign">
+  </div>
+</a>
+<span> <big>New ticket</big> </span>
+
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="box">
+        <div class="box-header">
+          <h3 class="box-title">Reports (<b> {{rows}} </b>)</h3>
+
+          <b>Reports opened:</b> {{opened}}
+          <b>Reports closed:</b> {{closed}}
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+          <table id="example2" class="table table-bordered table-hover">
+            <thead>
+            <tr>
+              <th>Topic</th>
+              <th>By</th>
+              <th>Status</th>
+              <th>Created</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in data %}
+            <tr>
+              <td> <a href="/report-{{item.id}}"> {{item.title}} </a> </td>
+
+              <td>{{item.username}}</td>
+
+              {% if item.status %}
+                <td> <small class="label label-danger"><i></i> Closed</small> </td>
+              {% else %}
+                <td> <small class="label label-success"><i></i> Opened</small> </td>
+              {% endif %}
+
+              <td> 
+                  <a class="glyphicon glyphicon-time"> </a>
+                {{item.date}} 
+
+              </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <!-- /.box-body -->
+      </div>
+    </div>
+  </div>
+    <!-- /.box -->
+
+{% endblock %}
+
+{% block reportsidebar %}
+    <li class="active"><a href="/report"><i class="glyphicon glyphicon-thumbs-down"></i> <span>Report a problem</span></a></li>
+{% endblock %}

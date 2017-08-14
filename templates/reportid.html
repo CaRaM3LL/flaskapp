@@ -1,0 +1,159 @@
+{% extends "home.html" %}
+
+{% block title %}
+  <title>Ticket #{{data.id}}</title>
+{% endblock %}
+
+
+{% block content %}
+
+<div id="edit-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title" id="myModalLabel">Notification!</h4>
+          </div>
+          <div class="modal-body edit-content">
+              Are you sure that you want to delete this reply ?
+          </div>
+          <div class="modal-footer">
+            <form action="/report-{{data.id}}" method="POST">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button class="btn btn-danger" name="deletecomm" value="">Delete</button>
+            </form>
+          </div>
+      </div>
+  </div>
+</div>
+
+<div class="modal fade" id="DeleteReport" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Notification!</h4>
+      </div>
+        <div class="modal-body">
+          Are you sure that you want to delete this report ?
+        </div>
+        <form action="/report-{{data.id}}" method="POST">
+          <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button name="delete" class="btn btn-danger">Delete</button>
+          </div>
+        </form>
+    </div>
+  </div>
+</div>
+
+<div class="col-md-9">
+  <div class="box box-solid">
+    <div class="box-header with-border">
+      {% if data.status %}
+        <i class="glyphicon glyphicon-folder-close"></i>
+      {% else %}
+        <i class="glyphicon glyphicon-folder-open"></i>
+      {% endif %}
+
+      <h3 class="box-title">{{data.title}}</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+      <ul>
+        <li> <b>By:</b> <a href="/profile-{{data.username}}"> {{data.username}} </a></li>
+        <li> <p> <b>Content:</b> {{data.content}} </p> </li>
+      </ul>
+    </div>
+    <!-- /.box-body -->
+  </div>
+  <!-- /.box -->
+</div>
+
+{% if session.Admin %}
+<div class="col-md-3">
+  <div class="box box-solid">
+    <div class="box-header with-border">
+      <i class="glyphicon glyphicon-bullhorn"></i>
+
+      <h3 class="box-title">Admin options</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+      <div class="btn-group-vertical">
+        <div class="pull-center">
+          <form action="/report-{{data.id}}" method="POST" class="pull-left">
+              {% if data.status %}
+                <button name="opened" class="btn btn-default">Open</button>
+              {% else %}
+                <button name="closed" class="btn btn-default">Close</button>
+              {% endif %}
+          </form>
+          <button class="btn btn-default" data-toggle="modal" data-target="#DeleteReport">Delete</button>
+        </div>
+      </div>
+    </div>
+    <!-- /.box-body -->
+  </div>
+  <!-- /.box -->
+</div>
+{% endif %}
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="box box-solid">
+      <div class="box-header with-border">
+        <i class="glyphicon glyphicon-comment"></i>
+        <h3 class="box-title">{{rows}} comments</h3>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body">
+        {% for item in comments %}
+        <table class="table table-bordered table-hover">
+          <div class="box-footer box-comments">
+            <div class="box-comment">
+              <!-- User image -->
+              <img class="img-circle img-sm" src="static/dist/img/user3-128x128.jpg" alt="User Image">
+
+              <div class="comment-text">
+                <span class="username">
+                  <a href="/profile-{{item.username}}"> {{item.username}} </a>
+                  <span class="text-muted pull-right">
+                    <a class="glyphicon glyphicon-time"> </a>
+                    {{item.date}} 
+
+
+                      {% if session.Admin %}
+                        <button class="glyphicon glyphicon-edit" name="editcomm" value="{{item.id}}"> </button>
+                        <button class="glyphicon glyphicon-remove" data-toggle="modal" id="{{item.id}}" data-target="#edit-modal"></button>
+                      {% endif %}
+                  </span>
+                </span><!-- /.username -->
+                {{item.comment}}
+              </div>
+              <!-- /.comment-text -->
+            </div>
+          </div>
+        </table>
+        {% endfor %}
+      </div>
+      <!-- /.box-body -->
+    </div>
+    {% if session.logged_in %}
+      {% if data.status %}
+        
+      {% else %}
+      <form action="/report-{{data.id}}" method="POST">
+        <div class="input-group input-group-sm">
+          <input type="text" class="form-control" placeholder="Post a comment" name="reply">
+          <span class="input-group-btn">
+              <button class="btn btn-info btn-flat">Reply</button>
+          </span>
+        </div>
+      </form>
+      {% endif %}
+    {% endif %}
+  </div>
+</div>
+
+{% endblock %}

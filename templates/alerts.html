@@ -1,0 +1,13 @@
+{% set icon = 'info' %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+	{% if messages %}
+		{% for category, message in messages %}
+			<div class="alert alert-{{ category }} alert-dismissible">
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+				<h4><i class="icon fa fa-{{icon}}"></i> Notification!</h4>
+				{{message}}
+			</div>
+		{% endfor %}
+	{% endif %}
+{% endwith %}

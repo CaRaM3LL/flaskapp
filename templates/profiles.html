@@ -1,0 +1,121 @@
+{% extends "home.html" %}
+
+{% block title %}
+  <title> {{data.username}} Profile</title>
+  {% endblock %}
+
+{% block content %}
+<div class="row">
+        <div class="col-md-3">
+
+          <!-- Profile Image -->
+          <div class="box box-primary">
+            <div class="box-body box-profile">
+              <img class="profile-user-img img-responsive img-circle" src="static/dist/img/Default-avatar.jpg" alt="User profile picture">
+
+              <h3 class="profile-username text-center">{{data.username}}</h3>
+              </ul>
+
+              <a href="#pm" class="btn btn-primary btn-block"><b>Message</b></a>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+
+          <!-- About Me Box -->
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">About Me</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              {% if data.Phone %}
+              <strong><i class="fa fa-book margin-r-5"></i> Phone Number</strong>
+              <p class="text-muted">
+                {{data.Phone}}
+              </p>
+              {% else %}
+              <strong><i class="fa fa-book margin-r-5"></i> Unknown Phone Number</strong>
+              {% endif %}
+              <hr>
+
+              <strong><i class="fa fa-map-marker margin-r-5"></i> Location</strong>
+
+              <p class="text-muted">{{data.Location}}</p>
+
+              <hr>
+
+              <strong><i class="fa fa-pencil margin-r-5"></i> About me</strong>
+
+              <p>
+                <span>{{data.About}}</span>
+              </p>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-9">
+          <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+              <li class="active"><a href="#timeline" data-toggle="tab">Timeline</a></li>
+            </ul>
+            <div class="tab-content">
+              <div class="active tab-pane" id="activity">
+              <!-- /.tab-pane -->
+              <div class="tab-pane" id="timeline">
+                <!-- The timeline -->
+                <ul class="timeline timeline-inverse">
+                  <!-- END timeline item -->
+                  <!-- timeline item -->
+                  <!-- END timeline item -->
+                  <!-- timeline item -->
+                  {% for item in data_comments %}
+                  <li>
+                      <i class="fa fa-comments bg-yellow"></i>
+                      <div class="timeline-item">
+                        <span class="time"><i class="fa fa-clock-o"></i> {{item.date}}</span>
+                        <h3 class="timeline-header"><a href="/profile-{{data.username}}">{{item.byusername}}</a></h3>
+                        <div class="timeline-body">
+                          {{item.comment}}
+                        </div>
+                      </div>
+                   
+                  </li>
+                   {% endfor %}
+                  <!-- END timeline item -->
+                  <!-- timeline time label -->
+                  <li class="time-label">
+                  </li>
+                  <!-- /.timeline-label -->
+                  <!-- timeline item -->
+                  <li>
+
+                  </li>
+                  <!-- END timeline item -->
+                  <li>
+                    <i class="fa fa-clock-o bg-gray"></i>
+                  </li>
+                </ul>
+                {% if session.logged_in %}
+                <div class="box-header with-border"> </div>
+                <form action="/profile-{{data.username}}" method="POST">
+                  <div class="input-group input-group-sm">
+                    <input type="text" class="form-control" placeholder="Post a comment" name="reply">
+                    <span class="input-group-btn">
+                        <button class="btn btn-info btn-flat">Reply</button>
+                    </span>
+                  </div>
+                </form>
+              </div>
+              {% endif %}
+            </div>
+            <!-- /.tab-content -->
+          </div>
+          <!-- /.nav-tabs-custom -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+{% endblock %}
