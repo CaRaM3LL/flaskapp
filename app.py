@@ -20,6 +20,8 @@ import config
 UPLOAD_FOLDER = 'static/images/'
 
 app = Flask(__name__)
+app.secret_key='secret11'
+
 
 #app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -311,7 +313,6 @@ def updates():
         return render_template('updates.html')
     
 if __name__ == '__main__':
-    app.secret_key='secret11'
     if config.test:
         app.run(debug=True)
     else:
