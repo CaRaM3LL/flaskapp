@@ -1,5 +1,11 @@
 from flask import Flask, render_template, url_for, redirect, flash
 from dbdata.connectionDB import connection
+import config
+
+if config.test is None:
+    import sys
+    sys.path.append('/home/Husse6/.virtualenvs/myvirtualenv/lib/python3.6/site-packages')
+
 import timeago, datetime
 
 def ReportShow(idreport):

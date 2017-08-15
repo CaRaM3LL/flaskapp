@@ -1,4 +1,11 @@
 from flask import render_template, request, redirect, url_for, flash
+
+import config
+
+if config.test is None:
+    import sys
+    sys.path.append('/home/Husse6/.virtualenvs/myvirtualenv/lib/python3.6/site-packages')
+
 from passlib.hash import sha256_crypt
 import cgi, wtforms
 from dbdata.connectionDB import connection

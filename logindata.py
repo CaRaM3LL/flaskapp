@@ -1,8 +1,14 @@
 from flask import render_template, request, redirect, url_for, session, flash
+from dbdata.connectionDB import connection
+import config
+import os
+
+if config.test is None:
+    import sys
+    sys.path.append('/home/Husse6/.virtualenvs/myvirtualenv/lib/python3.6/site-packages')
+
 from passlib.hash import sha256_crypt
 import cgi, gc, wtforms
-from dbdata.connectionDB import connection
-import os
 import timeago, datetime
 
 def loginFunc():

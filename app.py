@@ -3,12 +3,19 @@ from registerdata import registerFunc
 from logindata import loginFunc
 from dashboard import dashboardFunc
 from dbdata.connectionDB import connection
+import config
+
+if config.test is None:
+    import sys
+    sys.path.append('/home/Husse6/.virtualenvs/myvirtualenv/lib/python3.6/site-packages')
+
 import gc
 from reportshow import ReportShow
 import timeago, datetime
 from flask_uploads import UploadSet, configure_uploads, IMAGES
 import os
 from werkzeug import secure_filename
+import config
 
 UPLOAD_FOLDER = 'static/images/'
 
@@ -305,4 +312,7 @@ def updates():
     
 if __name__ == '__main__':
     app.secret_key='secret11'
-    app.run(debug=True)
+    if config.test:
+        app.run(debug=True)
+    else:
+        app.run()
