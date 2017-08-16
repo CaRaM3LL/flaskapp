@@ -1,0 +1,45 @@
+{% extends "home.html" %}
+
+{% block title %}
+  <title> Lobbies </title>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-12">
+    <div class="box box-danger">
+      <div class="box-header">
+        <h3 class="box-title">
+          Lobbies
+        </h3>
+      </div>
+      <div class="box-body table-responsive">
+        <a href="/createlobby"> <button class="btn btn-xs bg-red margin">create lobby</button> </a><br>
+        <table class="table table-condensed table-hover">
+          <thead>
+            <tr>
+              <th>#ID</th>
+              <th>Lobby</th>
+              <th>Members</th>
+              <th>Date created</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in data %}
+              <tr>
+                <td>{{item.id}}</td>
+                <td><b><a href="/lobbies-{{item.id}}">{{item.lobbyname}}</a></b></td>
+                <td>{{item.members}}</td>
+                <td>{{item.created}}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block lobbiesidebar %}
+    <li class="active"><a href="/lobbies"><i class="glyphicon glyphicon-blackboard"></i> <span>Lobbies</span></a></li>
+{% endblock %}

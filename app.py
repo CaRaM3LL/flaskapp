@@ -4,18 +4,18 @@ from logindata import loginFunc
 from dashboard import dashboardFunc
 from dbdata.connectionDB import connection
 import config
+from reportshow import ReportShow
+from flask_uploads import UploadSet, configure_uploads, IMAGES
+from lobbyshow import LobbyShow
 
 if config.test is None:
     import sys
     sys.path.append('/home/Husse6/.virtualenvs/myvirtualenv/lib/python3.6/site-packages')
 
 import gc
-from reportshow import ReportShow
 import timeago, datetime
-from flask_uploads import UploadSet, configure_uploads, IMAGES
 import os
 from werkzeug import secure_filename
-import config
 
 UPLOAD_FOLDER = 'static/images/'
 
@@ -208,13 +208,19 @@ def reportid(idreport):
     if request.method == 'POST':
         if 'opened' in request.form:
             cur.execute("""UPDATE report SET status = '0' WHERE id = %s""", [idreport])
+            #closing
             conn.commit()
             cur.close()
             conn.close()
+            gc.collect()
             flash(u'You opened ticket number #%s.' % (idreport), 'warning')
         elif 'closed' in request.form:
             cur.execute("""UPDATE report SET status = 1 WHERE id = %s""", [idreport])
+            #closing
             conn.commit()
+            cur.close()
+            conn.close()
+            gc.collect()
             flash(u'You closed ticket number #%s.' % (idreport), 'warning')
         elif 'reply' in request.form:
             comment = request.values['reply']
@@ -229,17 +235,21 @@ def reportid(idreport):
         elif 'delete' in request.form:
             cur.execute("""DELETE FROM report WHERE id = %s""", [idreport])
             cur.execute("""DELETE FROM report_comments WHERE reportid = %s""", [idreport])
+            #closing
             conn.commit()
             cur.close()
             conn.close()
+            gc.collect()
             flash(u'You deleted ticket number #%s.' % (idreport), 'warning')
             return redirect(url_for('report'))
         elif 'deletecomm' in request.form:
             idcomm = request.values['deletecomm']
             cur.execute("""DELETE FROM report_comments WHERE id = %s""", [idcomm])
+            #closing
             conn.commit()
             cur.close()
             conn.close()
+            gc.collect()
             flash(u'You deleted comment id #%s from reportid #%s.' % (idcomm, idreport), 'warning')
             print(idcomm)
     return ReportShow(idreport)
@@ -311,6 +321,103 @@ def updates():
     else:
         flash(u'No updates found.', 'success')
         return render_template('updates.html')
+
+###
+@app.route('/lobbies')
+def lobbies():
+    cur, conn = connection()
+    cur.execute("SELECT * FROM lobbies ORDER BY created DESC")
+    data = cur.fetchall()
+    cur.close()
+    conn.close()
+    now = datetime.datetime.now()
+    for time in data:
+        time['created'] = time_converted = timeago.format(time['created'], now)
+    return render_template('lobbies.html', data = data)
+
+###
+@app.route('/lobbies-<idlobby>', methods=['GET', 'POST'])
+def lobby(idlobby):
+    cur, conn = connection()
+    if request.method == 'POST':
+        if 'join' in request.form:
+            sql = "INSERT INTO lobby_data (idlobby, membername, membersqlid) VALUES (%s, %s, %s)"
+            cur.execute(sql, (idlobby, session['username'], session['sqlid']))
+            flash(u'You joined in this lobby.', 'success')
+            # log for lobby
+            text = '%s joined this lobby.' % session['username']
+            cur.execute("INSERT INTO lobby_logs (idlobby, text) VALUES (%s, %s)", (idlobby, text))
+            #closing
+            conn.commit()
+            cur.close()
+            conn.close()
+            gc.collect()
+        elif 'leave' in request.form:
+            sql = "DELETE FROM lobby_data WHERE membersqlid = %s and idlobby = %s"
+            cur.execute(sql, (session['sqlid'], idlobby))
+            flash(u'You left from this lobby.', 'danger')
+            # log for lobby
+            text = '%s left this lobby.' % session['username']
+            cur.execute("INSERT INTO lobby_logs (idlobby, text) VALUES (%s, %s)", (idlobby, text))
+            #closing
+            conn.commit()
+            cur.close()
+            conn.close()
+            gc.collect()
+        elif 'changerule' in request.form:
+            print('changerule')
+        elif 'resetlogs' in request.form:
+            sql = "DELETE FROM lobby_logs WHERE idlobby = %s"
+            cur.execute(sql, [idlobby])
+            flash(u'You deleted the logs from this lobby.', 'success')
+            #closing
+            conn.commit()
+            cur.close()
+            conn.close()
+            gc.collect()
+        elif 'deletelobby' in request.form:
+            sql = "DELETE FROM lobby_logs WHERE idlobby = %s"
+            cur.execute(sql, [idlobby])
+            sql = "DELETE FROM lobbies WHERE id = %s"
+            cur.execute(sql, [idlobby])
+            sql = "DELETE FROM lobby_data WHERE idlobby = %s"
+            cur.execute(sql, [idlobby])
+            flash(u'You deleted the lobby.', 'success')
+            #closing
+            conn.commit()
+            cur.close()
+            conn.close()
+            gc.collect()
+            return redirect(url_for('lobbies'))
+    return LobbyShow(idlobby)
+
+###
+@app.route('/createlobby', methods=['GET', 'POST'])
+def createlobby():
+    if request.method == 'POST':
+        lobbyname = request.form['lobbyname']
+        lobbyrule = request.form['lobbyrule']
+        cur, conn = connection()
+        sql = "INSERT INTO lobbies (creator, lobbyname, Rule) VALUES (%s, %s, %s)"
+        cur.execute(sql, (session['sqlid'], lobbyname, lobbyrule))
+        #
+        cur.execute("SELECT id FROM lobbies WHERE creator = %s", [session['sqlid']])
+        idlobby = cur.fetchone()
+        #
+        sql2 = "INSERT INTO lobby_data (idlobby, membername, membersqlid) VALUES (%s, %s, %s)"
+        cur.execute(sql2, (idlobby['id'], session['username'], session['sqlid']))
+        # log for lobby
+        text = '%s created the lobby.' % session['username']
+        cur.execute("INSERT INTO lobby_logs (idlobby, text) VALUES (%s, %s)", (idlobby['id'], text))
+        #closing
+        conn.commit()
+        cur.close()
+        conn.close()
+        gc.collect()
+        flash(u'Lobby created!', 'success')
+        return redirect(url_for('lobbies'))
+    return render_template('createlobby.html')
+    
     
 if __name__ == '__main__':
     if config.test:

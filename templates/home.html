@@ -159,10 +159,13 @@ desired effect
       <!-- /.search form -->
       <!-- Sidebar Menu -->
       <ul class="sidebar-menu">
-        <li class="header">My lobby</li>
-        <li><a href="#"><i class="glyphicon glyphicon-sunglasses"></i> <span>Nume lobby</span></a></li>
+        <li class="header">Etc</li>
+        <li><a href="#"><i class="glyphicon glyphicon-sunglasses"></i> <span>Altceva</span></a></li>
         <li class="header">Main buttons</li>
         <!-- Optionally, you can add icons to the links -->
+        {% block lobbiesidebar %}
+          <li><a href="/lobbies"><i class="glyphicon glyphicon-blackboard"></i> <span>Lobbies</span></a></li>
+        {% endblock %}
         {% block reportsidebar %}
           <li><a href="/report"><i class="glyphicon glyphicon-thumbs-down"></i> <span>Report a problem</span></a></li>
         {% endblock %}

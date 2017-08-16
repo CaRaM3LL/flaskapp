@@ -1,0 +1,117 @@
+{% extends "home.html" %}
+
+{% block title %}
+  <title> Lobby {{lobbyname.lobbyname}} </title>
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+<div class="col-xs-12">
+    <div class="col-xs-3">
+        <div class="panel panel-default">
+            <div class="panel-heading"><i class="fa fa-info text-info"></i> Lobby Info</div>
+            <div class="panel-body">
+            Lobby Name: <b>{{lobbyname.lobbyname}}</b> <br>
+            Date Created: <b>{{lobbyname.created}}</b> <br>
+            {% if session.logged_in %}
+              <hr>
+              <form action="/lobbies-{{lobbyname.id}}" method="POST">
+                {% if joined %}
+                  {% if session.sqlid == lobbyname.creator %}
+                    <button class="btn btn-block btn-danger disabled">Can't leave</button>
+                  {% else %}
+                    <button name="leave" class="btn btn-block btn-danger btn-xs">Leave</button>
+                  {% endif %}
+                {% else %}
+                  {% if session.sqlid == lobbyname.creator %}
+                    <button class="btn btn-block btn-danger btn-xs">Can't leave</button>
+                  {% else %}
+                    <button name="join" class="btn btn-block btn-success disabled">Join</button>
+                  {% endif %}
+                {% endif %}
+              </form>
+              </hr>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading"><i class="fa fa-info text-info"></i> Lobby Rules</div>
+            <div class="panel-body">
+              <ul>
+                 <li>{{lobbyname.Rule}}</li>
+              </ul>
+
+            </div>
+        </div>
+
+        <hr>
+    </div>
+
+    <div class="col-xs-5">
+        <div class="panel panel-default">
+            <div class="panel-heading"><i class="fa fa-group green text-success"></i> Lobby Members</div>
+            <div class="panel-body table-responsive no-padding">
+              <table class="table table-bordered">
+                  <tbody>
+                  <tr>
+                    <th><i class="fa fa-address-card"></i> Name</th>
+                    <th><i class="fa fa-clock-o"></i> Joined</th>
+                  </tr>
+                  {% for item in data %}
+                    <tr>
+                        {% if item.membersqlid == lobbyname.creator %}
+                           <td><a href="/profile-{{item.membername}}"> {{item.membername}} <b>(Creator)</b> </a></td>
+                        {% else %}
+                          <td><a href="/profile-{{item.membername}}"> {{item.membername}} </a></td>
+                        {% endif %}
+                        <td>{{item.joined}}</td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xs-4">
+      {% if session.logged_in %}
+         {% if session.sqlid == lobbyname.creator %}
+          <div class="panel panel-default">
+            <div class="panel-heading"><i class="fa fa-info text-info"></i> Lobby Configure</div>
+              <div class="panel-body">
+                <div class="table-responsive">
+                  <form action="/lobbies-{{lobbyname.id}}" method="POST">
+                    <td>
+                        <button name="changerule" class="btn btn-block btn-success btn-xs">Change Rules</button>
+                        <button name="resetlogs" class="btn btn-block btn-danger btn-xs">Reset Logs</button>
+                        <button name="deletelobby" class="btn btn-block btn-danger btn-xs">Delete Lobby</button>
+                    </td>
+                </form>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+        {% endif %}
+        <div class="panel panel-default">
+            <div class="panel-heading"><i class="fa fa-list-alt text-info"></i> Lobby Logs</div>
+            <div class="panel-body">
+              <ul>
+              {% for item2 in data_logs %}  
+                <li>
+                    {{item2.text}} <b>{{item2.date}} </b>
+                </li>
+              {% endfor %}
+              </ul>
+            </div>
+        </div>
+
+    </div>
+</div>  
+</div>
+{% endblock %}
+
+{% block lobbiesidebar %}
+    <li class="active"><a href="/lobbies"><i class="glyphicon glyphicon-blackboard"></i> <span>Lobbies ( {{lobbyname.lobbyname}} )</span></a></li>
+{% endblock %}
