@@ -15,6 +15,10 @@ def LobbyShow(idlobby):
     cur.execute("SELECT * FROM lobbies WHERE id = %s", [idlobby])
     lobbyname = cur.fetchone()
     lobbyname['created'] = time_converted = timeago.format(lobbyname['created'], now)
+    # creator
+    cur.execute("SELECT username FROM users WHERE id = %s", [lobbyname['creator']])    
+    creatorname = cur.fetchone()
+    creatorname = creatorname['username']
     # data
     cur.execute("SELECT * FROM lobby_data WHERE idlobby = %s ORDER BY joined DESC", [idlobby])    
     data = cur.fetchall()
@@ -34,6 +38,6 @@ def LobbyShow(idlobby):
                 joined = True
     return render_template('lobby.html',
                            data = data, lobbyname = lobbyname,
-                           joined = joined, data_logs = data_logs
-                           )
+                           joined = joined, data_logs = data_logs,
+                           creatorname = creatorname)
                                                                                     

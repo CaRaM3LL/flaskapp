@@ -59,13 +59,14 @@
                     <th><i class="fa fa-address-card"></i> Name</th>
                     <th><i class="fa fa-clock-o"></i> Joined</th>
                   </tr>
+
+                  </tr>
+                    <td><a href="/profile-{{lobbyname.membername}}"> {{creatorname}} <b>(Creator)</b> </a></td>
+                    <td> {{lobbyname.created}} </td>
+                  </tr>
                   {% for item in data %}
                     <tr>
-                        {% if item.membersqlid == lobbyname.creator %}
-                           <td><a href="/profile-{{item.membername}}"> {{item.membername}} <b>(Creator)</b> </a></td>
-                        {% else %}
-                          <td><a href="/profile-{{item.membername}}"> {{item.membername}} </a></td>
-                        {% endif %}
+                        <td><a href="/profile-{{item.membername}}"> {{item.membername}} </a></td>
                         <td>{{item.joined}}</td>
                     </tr>
                   {% endfor %}

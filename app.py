@@ -401,15 +401,6 @@ def createlobby():
             cur, conn = connection()
             sql = "INSERT INTO lobbies (creator, lobbyname, Rule) VALUES (%s, %s, %s)"
             cur.execute(sql, (session['sqlid'], lobbyname, lobbyrule))
-            #
-            cur.execute("SELECT id FROM lobbies WHERE creator = %s", [session['sqlid']])
-            idlobby = cur.fetchone()
-            #
-            sql2 = "INSERT INTO lobby_data (idlobby, membername, membersqlid) VALUES (%s, %s, %s)"
-            cur.execute(sql2, (idlobby['id'], session['username'], session['sqlid']))
-            # log for lobby
-            text = '%s created the lobby.' % session['username']
-            cur.execute("INSERT INTO lobby_logs (idlobby, text) VALUES (%s, %s)", (idlobby['id'], text))
             #closing
             conn.commit()
             cur.close()
