@@ -21,13 +21,13 @@
                   {% if session.sqlid == lobbyname.creator %}
                     <button class="btn btn-block btn-danger disabled">Can't leave</button>
                   {% else %}
-                    <button name="leave" class="btn btn-block btn-danger btn-xs">Leave</button>
+                    <button name="leave" class="btn btn-block btn-danger">Leave</button>
                   {% endif %}
                 {% else %}
                   {% if session.sqlid == lobbyname.creator %}
-                    <button class="btn btn-block btn-danger btn-xs">Can't leave</button>
+                    <button class="btn btn-block btn-danger disabled">Can't leave</button>
                   {% else %}
-                    <button name="join" class="btn btn-block btn-success disabled">Join</button>
+                    <button name="join" class="btn btn-block btn-success">Join</button>
                   {% endif %}
                 {% endif %}
               </form>
