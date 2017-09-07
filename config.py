@@ -1,7 +1,7 @@
 
 
 # Folosim valoarea 1 pt testing iar valoarea 0 pt serverul in productie
-test = 0
+test = 1
 
 
     
