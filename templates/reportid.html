@@ -1,4 +1,4 @@
-{% extends "home.html" %}
+{% extends "home2.html" %}
 
 {% block title %}
   <title>Ticket #{{data.id}}</title>
@@ -18,7 +18,7 @@
               Are you sure that you want to delete this reply ?
           </div>
           <div class="modal-footer">
-            <form action="/report-{{data.id}}" method="POST">
+            <form action="/report/{{data.id}}" method="POST">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
               <button class="btn btn-danger" name="deletecomm" value="">Delete</button>
             </form>
@@ -37,7 +37,7 @@
         <div class="modal-body">
           Are you sure that you want to delete this report ?
         </div>
-        <form action="/report-{{data.id}}" method="POST">
+        <form action="/report/{{data.id}}" method="POST">
           <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
               <button name="delete" class="btn btn-danger">Delete</button>
@@ -61,7 +61,7 @@
     <!-- /.box-header -->
     <div class="box-body">
       <ul>
-        <li> <b>By:</b> <a href="/profile-{{data.username}}"> {{data.username}} </a></li>
+        <li> <b>By:</b> <a href="/profile/{{data.username}}"> {{data.username}} </a></li>
         <li> <p> <b>Content:</b> {{data.content}} </p> </li>
       </ul>
     </div>
@@ -82,7 +82,7 @@
     <div class="box-body">
       <div class="btn-group-vertical">
         <div class="pull-center">
-          <form action="/report-{{data.id}}" method="POST" class="pull-left">
+          <form action="/report/{{data.id}}" method="POST" class="pull-left">
               {% if data.status %}
                 <button name="opened" class="btn btn-default">Open</button>
               {% else %}
@@ -117,7 +117,7 @@
 
               <div class="comment-text">
                 <span class="username">
-                  <a href="/profile-{{item.username}}"> {{item.username}} </a>
+                  <a href="/profile/{{item.username}}"> {{item.username}} </a>
                   <span class="text-muted pull-right">
                     <a class="glyphicon glyphicon-time"> </a>
                     {{item.date}} 
@@ -143,7 +143,7 @@
       {% if data.status %}
         
       {% else %}
-      <form action="/report-{{data.id}}" method="POST">
+      <form action="/report/{{data.id}}" method="POST">
         <div class="input-group input-group-sm">
           <input type="text" class="form-control" placeholder="Post a comment" name="reply">
           <span class="input-group-btn">

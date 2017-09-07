@@ -14,6 +14,12 @@ def LobbyShow(idlobby):
     # data
     cur.execute("SELECT * FROM lobbies WHERE id = %s", [idlobby])
     lobbyname = cur.fetchone()
+    if lobbyname is None:
+        flash(u'This lobby id was deleted or not exist.', 'danger')
+        # close
+        cur.close()
+        conn.close()
+        return redirect(url_for('index'))
     lobbyname['created'] = time_converted = timeago.format(lobbyname['created'], now)
     # creator
     cur.execute("SELECT username FROM users WHERE id = %s", [lobbyname['creator']])    

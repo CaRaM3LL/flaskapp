@@ -1,4 +1,4 @@
-{% extends "home.html" %}
+{% extends "home2.html" %}
 
 {% block title %}
   <title> Lobby {{lobbyname.lobbyname}} </title>
@@ -16,7 +16,7 @@
             Date Created: <b>{{lobbyname.created}}</b> <br>
             {% if session.logged_in %}
               <hr>
-              <form action="/lobbies-{{lobbyname.id}}" method="POST">
+              <form action="/lobbies/{{lobbyname.id}}" method="POST">
                 {% if joined %}
                   {% if session.sqlid == lobbyname.creator %}
                     <button class="btn btn-block btn-danger disabled">Can't leave</button>
@@ -61,12 +61,12 @@
                   </tr>
 
                   </tr>
-                    <td><a href="/profile-{{creatorname}}"> {{creatorname}} <b>(Creator)</b> </a></td>
+                    <td><a href="/profile/{{creatorname}}"> {{creatorname}} <b>(Creator)</b> </a></td>
                     <td> {{lobbyname.created}} </td>
                   </tr>
                   {% for item in data %}
                     <tr>
-                        <td><a href="/profile-{{item.membername}}"> {{item.membername}} </a></td>
+                        <td><a href="/profile/{{item.membername}}"> {{item.membername}} </a></td>
                         <td>{{item.joined}}</td>
                     </tr>
                   {% endfor %}

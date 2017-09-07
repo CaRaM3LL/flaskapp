@@ -14,6 +14,8 @@ def ReportShow(idreport):
     data = cur.fetchone()
     if data is None:
         flash(u'This report id was deleted or not exist.', 'danger')
+        cur.close()
+        conn.close()
         return redirect(url_for('index'))
     cur.execute("""SELECT id,username,comment,date FROM report_comments WHERE reportid = %s""", [idreport])
     comments = cur.fetchall()

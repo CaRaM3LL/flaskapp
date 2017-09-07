@@ -145,7 +145,7 @@ def settings():
 ###
 
 ###
-@app.route('/profile-<username>', methods=['GET', 'POST'])
+@app.route('/profile/<username>', methods=['GET', 'POST'])
 def userprofile(username):
     cur, conn = connection()
     cur.execute("""SELECT username, Phone, Location, About FROM users WHERE username = %s""", [username])
@@ -202,7 +202,7 @@ def report():
         return render_template('report.html')
 
 ###
-@app.route('/report-<idreport>', methods=['GET', 'POST'])
+@app.route('/report/<idreport>', methods=['GET', 'POST'])
 def reportid(idreport):
     cur, conn = connection()
     if request.method == 'POST':
@@ -336,7 +336,7 @@ def lobbies():
     return render_template('lobbies.html', data = data)
 
 ###
-@app.route('/lobbies-<idlobby>', methods=['GET', 'POST'])
+@app.route('/lobbies/<idlobby>', methods=['GET', 'POST'])
 def lobby(idlobby):
     cur, conn = connection()
     if request.method == 'POST':
@@ -416,7 +416,19 @@ def createlobby():
 ###
 @app.errorhandler(404)
 def error404(error):
-    return render_template('404.html')
+    return render_template('error.html', error = error)
+
+@app.errorhandler(500)
+def error500(error):
+    return render_template('error.html', error = error)
+
+@app.errorhandler(403)
+def error500(error):
+    return render_template('error.html', error = error)
+
+@app.errorhandler(410)
+def error500(error):
+    return render_template('error.html', error = error)
 
 if __name__ == '__main__':
     if config.test:
