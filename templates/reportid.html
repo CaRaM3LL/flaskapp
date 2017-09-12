@@ -12,7 +12,7 @@
       <div class="modal-content">
           <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-              <h4 class="modal-title" id="myModalLabel">Notification!</h4>
+              <h4 class="modal-title">Notification!</h4>
           </div>
           <div class="modal-body edit-content">
               Are you sure that you want to delete this reply ?
@@ -32,7 +32,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Notification!</h4>
+        <h4 class="modal-title">Notification!</h4>
       </div>
         <div class="modal-body">
           Are you sure that you want to delete this report ?
@@ -124,7 +124,7 @@
 
 
                       {% if session.Admin %}
-                        <button class="glyphicon glyphicon-edit" name="editcomm" value="{{item.id}}"> </button>
+                        <button class="glyphicon glyphicon-edit" id="{{item.id}}" data-toggle="modal" data-target="#Modal" name="test"> </button>
                         <button class="glyphicon glyphicon-remove" data-toggle="modal" id="{{item.id}}" data-target="#edit-modal"></button>
                       {% endif %}
                   </span>

@@ -126,9 +126,9 @@ desired effect
       <div class="user-panel">
         <div class="pull-left image">
           {% if session.logged_in %}
-          <img src="{{ url_for( 'static', filename = 'images/' + session.avatar ) }}" class="img-circle" alt="User Image">
+          <img src="{{ url_for( 'static', filename = 'images/' + session.avatar ) }}" class="img-circle" alt="User Image" width="45px">
           {% else %}
-          <img src="static/dist/img/notlogged.png" class="img-circle" alt="User Image">
+          <img src="static/dist/img/notlogged.png" class="img-circle" alt="User Image" width="45px">
           {% endif %}
         </div>
         <div class="pull-left info">

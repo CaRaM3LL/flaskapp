@@ -19,13 +19,13 @@
               <form action="/lobbies/{{lobbyname.id}}" method="POST">
                 {% if joined %}
                   {% if session.sqlid == lobbyname.creator %}
-                    <button class="btn btn-block btn-danger disabled">Can't leave</button>
+                    <a class="btn btn-block btn-danger disabled">Can't leave</a>
                   {% else %}
                     <button name="leave" class="btn btn-block btn-danger">Leave</button>
                   {% endif %}
                 {% else %}
                   {% if session.sqlid == lobbyname.creator %}
-                    <button class="btn btn-block btn-danger disabled">Can't leave</button>
+                    <a class="btn btn-block btn-danger disabled">Can't leave</a>
                   {% else %}
                     <button name="join" class="btn btn-block btn-success">Join</button>
                   {% endif %}
@@ -83,7 +83,7 @@
             <div class="panel-heading"><i class="fa fa-info text-info"></i> Lobby Configure</div>
               <div class="panel-body">
                 <div class="table-responsive">
-                  <form action="/lobbies-{{lobbyname.id}}" method="POST">
+                  <form action="/lobbies/{{lobbyname.id}}" method="POST">
                     <td>
                         <button name="changerule" class="btn btn-block btn-success btn-xs">Change Rules</button>
                         <button name="resetlogs" class="btn btn-block btn-danger btn-xs">Reset Logs</button>
