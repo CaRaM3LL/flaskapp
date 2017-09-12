@@ -5,7 +5,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 -->
 
 <!-- Notificarile trebuiesc apelate aici, butoane speciale, altfel nu se arata -->
-
 <html>
 <head>
   {% block title %}
@@ -24,6 +23,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="static/dist/css/AdminLTE.min.css">
+  <!-- Pace style -->
+  <link rel="stylesheet" href="static/plugins/pace/pace.min.css">
+
+
   <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
         page. However, you can choose any other skin. Make sure you
         apply the skin class to the body tag so the changes take effect.
@@ -261,5 +264,18 @@ $('#edit-modal').on('show.bs.modal', function(e) {
     });
   });
 </script>
+
+<!-- PACE -->
+<script src="static/plugins/pace/pace.min.js"></script>
+<script type="text/javascript">
+  // To make Pace works on Ajax calls
+  $(document).ajaxStart(function() { Pace.restart(); });
+    $('.ajax').click(function(){
+        $.ajax({url: '#', success: function(result){
+            $('.ajax-content').html('<hr>Ajax Request Completed !');
+        }});
+    });
+</script>
+
 </body>
 </html>

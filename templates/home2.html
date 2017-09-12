@@ -32,6 +32,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- DataTables -->
   <link rel="stylesheet" href="../static/plugins/datatables/dataTables.bootstrap.css">
 
+  <!-- Pace style -->
+  <link rel="stylesheet" href="../static/plugins/pace/pace.min.css">
+
 {% if session.logged_in %}
 <link rel="stylesheet" href="../static/dist/css/skins/skin-{{session.theme}}.min.css">
 {% else %}
@@ -276,5 +279,18 @@ $('#DeleteReport').on('show.bs.modal', function(e) {
     });
   });
 </script>
+
+<!-- PACE -->
+<script src="../static/plugins/pace/pace.min.js"></script>
+<script type="text/javascript">
+  // To make Pace works on Ajax calls
+  $(document).ajaxStart(function() { Pace.restart(); });
+    $('.ajax').click(function(){
+        $.ajax({url: '#', success: function(result){
+            $('.ajax-content').html('<hr>Ajax Request Completed !');
+        }});
+    });
+</script>
+
 </body>
 </html>
