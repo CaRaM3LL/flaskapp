@@ -76,7 +76,7 @@
                       <i class="fa fa-comments bg-yellow"></i>
                       <div class="timeline-item">
                         <span class="time"><i class="fa fa-clock-o"></i> {{item.date}}</span>
-                        <h3 class="timeline-header"><a href="/profile-{{data.username}}">{{item.byusername}}</a></h3>
+                        <h3 class="timeline-header"><a href="/profile/{{data.username}}">{{item.byusername}}</a></h3>
                         <div class="timeline-body">
                           {{item.comment}}
                         </div>
@@ -100,7 +100,7 @@
                 </ul>
                 {% if session.logged_in %}
                 <div class="box-header with-border"> </div>
-                <form action="/profile-{{data.username}}" method="POST">
+                <form action="/profile/{{data.username}}" method="POST">
                   <div class="input-group input-group-sm">
                     <input type="text" class="form-control" placeholder="Post a comment" name="reply">
                     <span class="input-group-btn">
