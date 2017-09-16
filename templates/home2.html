@@ -14,7 +14,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
   <link rel="icon" href="../static/icons/SportBase icon.png"/>
   {% include 'logout.html' %}
-  {% include 'modal.html' %}
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
@@ -240,6 +239,7 @@ desired effect
      user experience. Slimscroll is required when using the
      fixed layout. -->
 
+<!-- PENTRU MODAL -->
 <script>
 $('#edit-modal').on('show.bs.modal', function(e) {       
     var $modal = $(this),
@@ -248,21 +248,9 @@ $('#edit-modal').on('show.bs.modal', function(e) {
             $modal.find('.btn-danger').val(esseyId);
     
 })
-
-$('#Modal').on('show.bs.modal', function(e) {       
-    var $modal = $(this),
-        esseyId = e.relatedTarget.id;
-
-    $modal.find('.btn-danger').val(esseyId);
-    $("#Modal .modal-title").html(esseyId); 
-    
-})
-
-$('#DeleteReport').on('show.bs.modal', function(e) {
-  $("#DeleteReport .modal-title").html("test");       
-    
-})
 </script>
+
+<!-- end of MODAL -->
 
 <!-- DataTables -->
 <script src="../static/plugins/datatables/jquery.dataTables.min.js"></script>

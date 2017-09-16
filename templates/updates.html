@@ -27,15 +27,28 @@
           <!-- timeline icon -->
           <i class="fa fa-arrow-down bg-blue"></i>
           <div class="timeline-item collapsed">
-            <div class="box box-default collapsed-box" id="update_0">
+            {% if loop.index == 1 %}
+              <div class="box box-default" id="update_0">
+            {% else %}
+              <div class="box box-default collapsed-box" id="update_0">
+            {% endif %}
               <div class=" box-header with-border " data-collapsed="false">
                 <h3 class="box-title">{{item.date}} ( <b>{{item.title}}</b> ) </h3>
                 <div class="box-tools pull-right">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                {% if loop.index == 1 %}
+                  <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                 </button>
+                {% else %}
+                  <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                </button>
+                {% endif %}
                 </div>
               </div>
-	              <div class="box-body" style="display: none;">
+                {% if loop.index == 1 %}
+                  <div class="box-body" style="display: block;">
+                {% else %}
+                  <div class="box-body" style="display: none;">
+                {% endif %}
 	                <p>{{item.content}}</p>
 	                <span class="pull-right"> 
 	                	<i>by <a href="/profile/{{item.username}}">{{item.username}}</a> </i>
@@ -49,7 +62,6 @@
           </ul>
 </div></div>
 {% endblock %}
-
 {% block updatesidebar %}
     <li class="active"><a href="/updates"><i class="glyphicon glyphicon-bullhorn"></i> <span>Updates</span></a></li>
 {% endblock %}

@@ -5,7 +5,27 @@
 {% endblock %}
 
 {% block content %}
-
+<!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+<div id="ModifLobby" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title">Notification!</h4>
+          </div>
+          <div class="modal-body edit-content">
+              Are you sure that you want to delete the lobby ?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+            <form action="/lobbies/{{lobbyname.id}}" method="POST">
+              <button class="btn btn-danger" id="NameToChange" name="">Delete</button>
+            </form>
+          </div>
+      </div>
+  </div>
+</div>
+<!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 <div class="row">
 <div class="col-xs-12">
     <div class="col-xs-3">
@@ -83,13 +103,11 @@
             <div class="panel-heading"><i class="fa fa-info text-info"></i> Lobby Configure</div>
               <div class="panel-body">
                 <div class="table-responsive">
-                  <form action="/lobbies/{{lobbyname.id}}" method="POST">
-                    <td>
-                        <button name="changerule" class="btn btn-block btn-success btn-xs">Change Rules</button>
-                        <button name="resetlogs" class="btn btn-block btn-danger btn-xs">Reset Logs</button>
-                        <button name="deletelobby" class="btn btn-block btn-danger btn-xs">Delete Lobby</button>
-                    </td>
-                </form>
+                  <td>
+                      <button name="changerule" class="btn btn-block btn-success btn-xs">Change Rules</button>
+                      <button class="btn btn-block btn-danger btn-xs" data-toggle="modal" data-target="#ModifLobby" onclick="CustomFunction(1)">Reset Logs</button>
+                      <button class="btn btn-block btn-danger btn-xs" data-toggle="modal" data-target="#ModifLobby" onclick="CustomFunction(0)"> Delete Lobby</button>
+                  </td>
               </div>
             </div>
           </div>
@@ -111,6 +129,23 @@
     </div>
 </div>  
 </div>
+
+<script>
+function CustomFunction(expresie) {
+  switch(expresie)
+  {
+    case 0:
+        var x = document.getElementById("NameToChange").name = "deletelobby";
+        $("#ModifLobby .modal-body").html('Are you sure that you want to delete this lobby ?'); 
+        break;
+    case 1:
+        var x = document.getElementById("NameToChange").name = "resetlogs";
+        $("#ModifLobby .modal-body").html('Are you sure that you want to reset all the logs ?'); 
+        break;
+  }
+}
+</script>
+
 {% endblock %}
 
 {% block lobbiesidebar %}
